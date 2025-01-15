@@ -19,6 +19,15 @@ jobs:
       - name: Set executable permissions
         run: chmod +x ${{ github.workspace }}/x86-64/build.sh
 
+      - name: Clone source code
+        run: |
+          git clone https://github.com/immortalwrt/immortalwrt
+          cd immortalwrt
+          # 修改 GRUB 配置
+          sed -i 's/GRUB_TIMEOUT=.*/GRUB_TIMEOUT=0/' target/linux/x86/image/Makefile
+          sed -i 's/#GRUB_HIDDEN_TIMEOUT=.*/GRUB_HIDDEN_TIMEOUT=0/' target/linux/x86/image/Makefile
+          sed -i 's/#GRUB_HIDDEN_TIMEOUT_QUIET=.*/GRUB_HIDDEN_TIMEOUT_QUIET=true/' target/linux/x86/image/Makefile
+
       - name: Build ImmortalWrt-x86-64-eif
         run: |
           profiles="${{ github.event.inputs.profile }}"
@@ -37,7 +46,6 @@ jobs:
               -e PROFILE=$profile \
               immortalwrt/imagebuilder:x86-64-openwrt-23.05.4 /bin/bash /home/build/immortalwrt/build.sh
           done
-
 
       - name: Create GitHub Release Info
         uses: softprops/action-gh-release@v2.1.0
@@ -58,4 +66,3 @@ jobs:
           token: ${{ secrets.GITHUB_TOKEN }}
         env:
           GITHUB_TOKEN: ${{ secrets.GITHUB_TOKEN }}
-
