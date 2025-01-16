@@ -5,19 +5,6 @@ echo "编译固件大小为: $PROFILE MB"
 # 输出调试信息
 echo "$(date '+%Y-%m-%d %H:%M:%S') - 开始编译..."
 
-# 下载 ddns-scripts-aliyun 的 ipk 包
-echo "下载 ddns-scripts-aliyun ipk 包..."
-wget -qO ddns-scripts-aliyun.ipk https://github.com/renndong/ddns-scripts-aliyun/releases/download/v1.0.1/ddns-scripts-aliyun_1.0.1-1_all.ipk
-
-# 创建文件系统并复制配置文件
-echo "准备配置文件..."
-mkdir -p files/etc/config/
-cp /etc/config/ddns files/etc/config/ddns
-
-# 将 ipk 包复制到目标目录
-echo "添加 ddns-scripts-aliyun 到包列表..."
-PACKAGES="$PACKAGES ddns-scripts-aliyun"
-
 # 定义所需安装的包列表
 PACKAGES=""
 PACKAGES="$PACKAGES curl"
@@ -44,6 +31,8 @@ PACKAGES="$PACKAGES luci-i18n-autoreboot-zh-cn"
 PACKAGES="$PACKAGES luci-i18n-udpxy-zh-cn"
 PACKAGES="$PACKAGES luci-i18n-ddns-zh-cn"
 PACKAGES="$PACKAGES luci-i18n-msd_lite-zh-cn"
+PACKAGES="$PACKAGES ddns-scripts-cloudflare"
+PACKAGES="$PACKAGES ddns-scripts_aliyun"
 
 # 构建镜像
 echo "$(date '+%Y-%m-%d %H:%M:%S') - Building image with the following packages:"
