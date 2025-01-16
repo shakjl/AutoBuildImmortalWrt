@@ -48,7 +48,7 @@ jobs:
           done
 
       - name: Clear screen after boot
-        run: echo -e "\033c" > /etc/rc.local
+        run: echo -e "\033c" | sudo tee -a /etc/rc.local
 
       - name: Create GitHub Release Info
         uses: softprops/action-gh-release@v2.1.0
