@@ -47,9 +47,6 @@ jobs:
               immortalwrt/imagebuilder:x86-64-openwrt-23.05.4 /bin/bash /home/build/immortalwrt/build.sh
           done
 
-      - name: Clear screen after boot
-        run: echo -e "\033c" | sudo tee -a /etc/rc.local
-
       - name: Create GitHub Release Info
         uses: softprops/action-gh-release@v2.1.0
         with:
